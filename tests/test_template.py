@@ -7,15 +7,19 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from pathlib import Path
 
-    import pytest
-
+import pytest
 from copier import run_copy
 
 
-def test_copy_default(tmp_path: Path, pytestconfig: pytest.Config) -> None:
+@pytest.fixture
+def template_dir(pytestconfig: pytest.Config) -> str:
     root_dir = pytestconfig.rootdir
+    return str(root_dir)
+
+
+def test_copy_default(template_dir: str, tmp_path: Path) -> None:
     run_copy(
-        str(root_dir),
+        template_dir,
         tmp_path,
         vcs_ref='HEAD',
         defaults=True,
