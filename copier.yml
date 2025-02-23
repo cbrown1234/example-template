@@ -8,8 +8,21 @@ _envops:
   comment_start_string: "[#"
   variable_end_string: "]]"
   variable_start_string: "[["
+_jinja_extensions:
+  - copier_templates_extensions.TemplateExtensionLoader
+  - extensions/validators.py:PydanticExtension
+
 
 template_name:
   type: str
   default: example-template
   when: false  # hidden question
+
+# Validation using Pydantic via extensions/validators.py
+validated_example:
+  type: yaml
+  multiline: true
+  default: |
+    a: 'abc'
+    b: 'xyz'
+  validator: "[[ validated_example | example_validator_str ]]"

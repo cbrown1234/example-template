@@ -28,6 +28,9 @@ known-first-party = ["helpers"]
     "INP001", # https://github.com/astral-sh/ruff/issues/6474
     "D103", # Tests can self document
 ]
+"extensions/*.py" = [
+    "INP001",
+]
 
 [tool.ruff.format]
 quote-style = "single"
