@@ -2,26 +2,37 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from pathlib import Path
 
-if TYPE_CHECKING:
-    from pathlib import Path
+from copier import run_copy, run_update
+from helpers import git_save
 
-import pytest
-from copier import run_copy
-
-
-@pytest.fixture
-def template_dir(pytestconfig: pytest.Config) -> str:
-    root_dir = pytestconfig.rootdir
-    return str(root_dir)
+TEMPLATE_DIR = Path(__file__).parent.parent.absolute()
+ANSWER_FILE_DEFAULT = '.copier-answers-example-template.yml'
 
 
-def test_copy_default(template_dir: str, tmp_path: Path) -> None:
+def test_copy_default(tmp_path: Path) -> None:
     run_copy(
-        template_dir,
+        str(TEMPLATE_DIR),
         tmp_path,
         vcs_ref='HEAD',
         defaults=True,
     )
-    assert (tmp_path / '.copier-answers-example-template.yml').exists()
+    assert (tmp_path / ANSWER_FILE_DEFAULT).exists()
+
+
+def test_update_default(tmp_path: Path) -> None:
+    run_copy(
+        str(TEMPLATE_DIR),
+        tmp_path,
+        defaults=True,
+    )
+    git_save(tmp_path)
+    run_update(
+        tmp_path,
+        vcs_ref='HEAD',
+        defaults=True,
+        overwrite=True,  # The default when run via CLI
+        answers_file=ANSWER_FILE_DEFAULT,
+    )
+    assert (tmp_path / ANSWER_FILE_DEFAULT).exists()

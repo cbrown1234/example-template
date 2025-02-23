@@ -1,2 +1,4 @@
 copier >= 9.5.0
 pytest
+pytest-gitconfig
+plumbum
