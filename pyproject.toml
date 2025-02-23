@@ -12,6 +12,9 @@ ignore = [
     "COM812",
 ]
 
+[tool.ruff.lint.isort]
+known-first-party = ["helpers"]
+
 [tool.ruff.lint.extend-per-file-ignores]
 # https://github.com/astral-sh/ruff/issues/4368#issuecomment-2245567481
 "tests/**/*.py" = [

@@ -5,7 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 
 from copier import run_copy, run_update
-from helpers import git_save
+from plumbum import local
+from plumbum.cmd import task
+
+from helpers import git, git_save
 
 TEMPLATE_DIR = Path(__file__).parent.parent.absolute()
 ANSWER_FILE_DEFAULT = '.copier-answers-example-template.yml'
@@ -36,3 +39,16 @@ def test_update_default(tmp_path: Path) -> None:
         answers_file=ANSWER_FILE_DEFAULT,
     )
     assert (tmp_path / ANSWER_FILE_DEFAULT).exists()
+
+
+def test_dev_setup(tmp_path: Path) -> None:
+    run_copy(
+        str(TEMPLATE_DIR),
+        tmp_path,
+        vcs_ref='HEAD',
+        defaults=True,
+    )
+    with local.cwd(tmp_path):
+        git('init')
+        task('dev-setup')
+    git_save(tmp_path)
