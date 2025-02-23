@@ -1,0 +1,18 @@
+version: '3'
+
+set: [pipefail]
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  dev-setup:
+    desc: Bootstrap dev setup
+    cmds:
+      - pre-commit install
+
+  maintenance:
+    desc: Project maintenance automation
+    cmds:
+      - pre-commit autoupdate
