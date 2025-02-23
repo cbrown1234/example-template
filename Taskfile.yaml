@@ -46,3 +46,12 @@ tasks:
     desc: Run tests
     cmds:
       - python -m pytest
+
+  diff:
+    desc: Compare last version to HEAD
+    cmds:
+      - rm -rf tmp/before
+      - rm -rf tmp/after
+      - copier copy . tmp/before
+      - copier copy --vcs-ref HEAD . tmp/after
+      - diff tmp/before tmp/after
