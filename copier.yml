@@ -1,0 +1,8 @@
+_subdirectory: template
+_min_copier_version: "9.5.0"
+_answers_file: .copier-answers-{{ template_name }}.yml
+
+template_name:
+  type: str
+  default: example-template
+  when: false  # hidden question
