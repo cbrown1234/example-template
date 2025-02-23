@@ -11,8 +11,38 @@ tasks:
     desc: Bootstrap dev setup
     cmds:
       - pre-commit install
+      - task: dev-setup:virtualenv
+
+  dev-setup:virtualenv-base:
+    desc: Install dev requirements
+    requires:
+      vars: [VIRTUAL_ENV]
+    preconditions:
+      - sh: '[ "{{.VIRTUAL_ENV | base }}" != "global" ]'
+        msg: "Must be in a virtualenv not called global"
+    cmds:
+      - pip install --upgrade pip pip-tools
+
+  dev-setup:virtualenv:
+    desc: Install dev requirements
+    cmds:
+      - task: dev-setup:virtualenv-base
+      - pip-sync requirements-dev.txt
 
   maintenance:
     desc: Project maintenance automation
     cmds:
       - pre-commit autoupdate
+      - task: maintenance:requirements-dev
+
+  maintenance:requirements-dev:
+    vars:
+      FLAGS: '{{.FLAGS | default "--rebuild --upgrade" }}'
+    cmds:
+      - task: dev-setup:virtualenv-base
+      - pip-compile {{.FLAGS}} requirements-dev.in
+
+  test:
+    desc: Run tests
+    cmds:
+      - python -m pytest
