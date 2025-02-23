@@ -1,0 +1,9 @@
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "single"

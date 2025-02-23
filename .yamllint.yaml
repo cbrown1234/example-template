@@ -1,0 +1,11 @@
+---
+extends: default
+
+rules:
+  document-start:
+    ignore: |
+      .pre-commit-config.yaml
+      copier.yml
+  new-line-at-end-of-file: disable
+  new-lines:
+    type: unix
