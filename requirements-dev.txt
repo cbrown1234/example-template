@@ -15,6 +15,12 @@ colorama==0.4.6 \
 copier==9.5.0 \
     --hash=sha256:d7d9851649ad71518f8e868ab761362af0ee9008025a3f85647e9724983cf540 \
     --hash=sha256:db7311075176376ee746fe610ffb5b27db7ac755585d6149894f677ffbce127d
+    # via
+    #   -r requirements-dev.in
+    #   copier-templates-extensions
+copier-templates-extensions==0.3.0 \
+    --hash=sha256:48b3f5213ee913b931df40e4e9325b58b9c9a741f1052a7da1b247ed991f5150 \
+    --hash=sha256:733e709536e03768b1201c79525534d7fd153932cf764492a0396692e513f244
     # via -r requirements-dev.in
 dunamai==1.23.0 \
     --hash=sha256:a0906d876e92441793c6a423e16a4802752e723e9c9a5aabdc5535df02dbe041 \

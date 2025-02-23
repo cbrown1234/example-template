@@ -20,6 +20,7 @@ def test_copy_default(tmp_path: Path) -> None:
         tmp_path,
         vcs_ref='HEAD',
         defaults=True,
+        unsafe=True,
     )
     assert (tmp_path / ANSWER_FILE_DEFAULT).exists()
 
@@ -29,6 +30,7 @@ def test_update_default(tmp_path: Path) -> None:
         str(TEMPLATE_DIR),
         tmp_path,
         defaults=True,
+        unsafe=True,
     )
     git_save(tmp_path)
     run_update(
@@ -37,6 +39,7 @@ def test_update_default(tmp_path: Path) -> None:
         defaults=True,
         overwrite=True,  # The default when run via CLI
         answers_file=ANSWER_FILE_DEFAULT,
+        unsafe=True,
     )
     assert (tmp_path / ANSWER_FILE_DEFAULT).exists()
 
@@ -47,6 +50,7 @@ def test_dev_setup(tmp_path: Path) -> None:
         tmp_path,
         vcs_ref='HEAD',
         defaults=True,
+        unsafe=True,
     )
     with local.cwd(tmp_path):
         git('init')

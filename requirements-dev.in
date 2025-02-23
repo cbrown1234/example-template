@@ -1,4 +1,5 @@
 copier >= 9.5.0
+copier_templates_extensions
 pytest
 pytest-gitconfig
 plumbum

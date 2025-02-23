@@ -1,6 +1,10 @@
 _subdirectory: template
 _min_copier_version: "9.5.0"
 _answers_file: .copier-answers-{{ template_name }}.yml
+_jinja_extensions:
+- copier_templates_extensions.TemplateExtensionLoader
+- template/extensions/context.py:ContextUpdater
+
 
 template_name:
   type: str
