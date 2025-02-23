@@ -6,6 +6,7 @@ rules:
     ignore: |
       .pre-commit-config.yaml
       copier.yml
+      Taskfile.yaml
   new-line-at-end-of-file: disable
   new-lines:
     type: unix
