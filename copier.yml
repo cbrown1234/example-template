@@ -8,6 +8,7 @@ _envops:
   comment_start_string: "[#"
   variable_end_string: "]]"
   variable_start_string: "[["
+  trim_blocks: true
 _jinja_extensions:
   - copier_templates_extensions.TemplateExtensionLoader
   - extensions/validators.py:PydanticExtension
