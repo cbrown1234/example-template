@@ -27,3 +27,11 @@ validated_example:
     a: 'abc'
     b: 'xyz'
   validator: "[[ validated_example | example_validator_str ]]"
+
+invalid_default:
+  type: str
+  default: ""
+  validator: |
+    [% if invalid_default == "" %]
+    Not valid
+    [% endif %]
