@@ -13,6 +13,27 @@ _jinja_extensions:
   - copier_templates_extensions.TemplateExtensionLoader
   - extensions/validators.py:PydanticExtension
 
+# Child template loads parent answers
+_external_data:
+  # A dynamic path. Make sure you answer that question
+  # before the first access to the data (with `_external_data.parent_tpl`)
+  parent_tpl: "[[ existing_answers_file ]]"
+
+# Ask user where they stored parent answers
+existing_answers_file:
+  help: File to load default answers from?
+  default: answers.yml
+
+# Use a parent answer as the default value for a child question
+question:
+  help: What version are you deploying?
+  # We already answered the `parent_tpl_answers_file` question, so we can
+  # now correctly access the external data from `_external_data.parent_tpl`
+  # default: |-
+  #   [% if _external_data.parent_tpl.question %]
+  #   [[ _external_data.parent_tpl.question ]]
+  #   [% endif %]"
+  default: "[[ _external_data.parent_tpl.question ]]"
 
 template_name:
   type: str
@@ -28,10 +49,43 @@ validated_example:
     b: 'xyz'
   validator: "[[ validated_example | example_validator_str ]]"
 
-invalid_default:
-  type: str
-  default: ""
-  validator: |
-    [% if invalid_default == "" %]
-    Not valid
-    [% endif %]
+# invalid_default:
+#   type: str
+#   default: ""
+#   validator: |
+#     [% if invalid_default == "" %]
+#     Not valid
+#     [% endif %]
+
+# helper list
+required_config:
+  type: yaml
+  default: |-
+      db_host: string
+      db_port: number
+  when: false
+
+environments_config:
+  type: yaml
+  multiline: true
+  default: |-
+      dev:
+          db_host: localhost
+          db_port: '5432'
+  validator: |-
+      [% if environments_config is not mapping %]
+      Environment config must be a yaml map with keys as the environment name
+      [% endif %]
+      [% for env, config in environments_config.items() %]
+      [% if config is not mapping %]
+      Environment '[[ env ]]' value must be a yaml map with keys: [[ required_config | join(',') ]]
+      [% endif %]
+      [% for var in required_config %]
+      [% if var not in config %]
+      [[ env ]] must contain [[ var ]] setting
+      [% endif %]
+      [% if config[var] is not string %]
+      [[ var ]] must be a string setting
+      [% endif %]
+      [% endfor %]
+      [% endfor %]
