@@ -12,15 +12,15 @@ colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
     # via copier
-copier==9.5.0 \
-    --hash=sha256:d7d9851649ad71518f8e868ab761362af0ee9008025a3f85647e9724983cf540 \
-    --hash=sha256:db7311075176376ee746fe610ffb5b27db7ac755585d6149894f677ffbce127d
+copier==9.6.0 \
+    --hash=sha256:aaf992600a373fa2dda9f61725916a230c210ede14a968c60dab855d524c6cf3 \
+    --hash=sha256:e05a18b387b96e8d1fbd5271d37f59c9a02be5ad717f7878d0505562fd62b786
     # via
     #   -r requirements-dev.in
     #   copier-templates-extensions
-copier-templates-extensions==0.3.0 \
-    --hash=sha256:48b3f5213ee913b931df40e4e9325b58b9c9a741f1052a7da1b247ed991f5150 \
-    --hash=sha256:733e709536e03768b1201c79525534d7fd153932cf764492a0396692e513f244
+copier-templates-extensions==0.3.1 \
+    --hash=sha256:d0834ecacaaeef84f81e745fd8fdcd519cb0731ddb5bd45bc0129633c717f5e2 \
+    --hash=sha256:f604f6dc58814204b79aa0697d919b94077b28942595d2fa0a20e4d94b6890a6
     # via -r requirements-dev.in
 dunamai==1.23.0 \
     --hash=sha256:a0906d876e92441793c6a423e16a4802752e723e9c9a5aabdc5535df02dbe041 \
@@ -34,9 +34,9 @@ iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
     --hash=sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374
     # via pytest
-jinja2==3.1.5 \
-    --hash=sha256:8fefff8dc3034e27bb80d67c671eb8a9bc424c0ef4c0826edbff304cceff43bb \
-    --hash=sha256:aba0f4dc9ed8013c424088f68a5c226f7d6097ed89b246d7749c2ec4175c6adb
+jinja2==3.1.6 \
+    --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
+    --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
     # via
     #   copier
     #   jinja2-ansible-filters
@@ -246,9 +246,9 @@ pygments==2.19.1 \
     --hash=sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f \
     --hash=sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c
     # via copier
-pytest==8.3.4 \
-    --hash=sha256:50e16d954148559c9a74109af1eaf0c945ba2d8f30f0a3d3335edde19788b6f6 \
-    --hash=sha256:965370d062bce11e73868e0335abac31b4d3de0e82f4007408d242b4f8610761
+pytest==8.3.5 \
+    --hash=sha256:c69214aa47deac29fad6c2a4f590b9c4a9fdb16a403176fe154b79c0b4d4d820 \
+    --hash=sha256:f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845
     # via
     #   -r requirements-dev.in
     #   pytest-gitconfig
