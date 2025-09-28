@@ -38,12 +38,11 @@ def copier_validator(model: BaseModel) -> callable:
 
     def validator(value: dict) -> str:
         """Single line error message for copier validator."""
-        messages = []
         try:
             model.model_validate(value, strict=True)
         except ValidationError as err:
-            messages = [f'{":".join(e["loc"])}: {e["msg"]}' for e in err.errors()]
-        return '\n'.join(messages)
+            return str(err)
+        return ''
 
     return validator
 
