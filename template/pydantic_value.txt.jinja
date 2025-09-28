@@ -1,4 +1,8 @@
 # Pydantic example
-[% if validated_example is example %]
-[[ validated_example | to_example | to_nice_yaml -]]
+# Using pydantic directly
+[% if validated_example is Example %]
+[% set validated_example_model = Example.model_validate(validated_example, strict=True).model_dump() %]
+[[ validated_example_model | to_nice_yaml -]]
 [% endif %]
+# Using helpers
+[[ validated_example | to_model_dict(Example) | to_nice_yaml -]]

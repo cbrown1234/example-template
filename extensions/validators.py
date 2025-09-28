@@ -1,9 +1,11 @@
 """Pydantic model integration helpers."""
 
+from typing import Any
+
 import prompt_toolkit
 from jinja2 import Environment
 from jinja2.ext import Extension
-from pydantic import BaseModel, StrictStr, ValidationError
+from pydantic import BaseModel, RootModel, StrictStr, ValidationError
 
 validation_toolbar_init = prompt_toolkit.widgets.ValidationToolbar.__init__
 
@@ -21,55 +23,6 @@ def validation_toolbar_init_patched(
 prompt_toolkit.widgets.ValidationToolbar.__init__ = validation_toolbar_init_patched
 
 
-def copier_validator(model: BaseModel) -> callable:
-    """Create Copier validator of model jinja filter.
-
-    Creates a function that returns text of the error from creating
-    an instance of the model
-
-    Add as a jinja environment filter `example_validator_str`
-    to use like so in copier.yml
-    ```
-    validated_example:
-        type: yaml
-        validator: "{{ validated_example | example_validator_str }}"
-    ```
-    """
-
-    def validator(value: dict) -> str:
-        """Single line error message for copier validator."""
-        try:
-            model.model_validate(value, strict=True)
-        except ValidationError as err:
-            return str(err)
-        return ''
-
-    return validator
-
-
-def jinja_test(model: BaseModel) -> callable:
-    """Add as jinja environment test."""
-
-    def test(value: dict) -> bool:
-        try:
-            model.model_validate(value)
-        except ValidationError:
-            return False
-        return True
-
-    return test
-
-
-def to(model: BaseModel) -> callable:
-    """Create helper closure."""
-
-    def to_model(value: dict) -> dict:
-        """Convert to dict of model."""
-        return dict(model.model_validate(value))
-
-    return to_model
-
-
 class Example(BaseModel):
     """Example."""
 
@@ -78,21 +31,110 @@ class Example(BaseModel):
     c: StrictStr = '123'
 
 
+class PerEnvConfig(BaseModel):
+    """Config needed per environment."""
+
+    db_host: str
+    db_port: int
+
+
+class EnvsConfig(RootModel[dict[str, PerEnvConfig]]):
+    """Config for environment."""
+
+
 models = {
     'example': Example,
+    'envs_config': EnvsConfig,
 }
 
 
+def to_model(value: Any, model: type[BaseModel], **kwargs: dict) -> BaseModel:
+    """Jinja filter for instantiating model instance.
+
+    `{{ value | to_model(Example) }}`
+    """
+    return model.model_validate(value, strict=True, **kwargs)
+
+
+def to_model_dict(value: Any, model: type[BaseModel], **kwargs: dict) -> dict:
+    """Jinja filter for instantiating model instance as dictionary.
+
+    `{{ value | to_model_dict(Example) }}`
+
+    Useful if you want simpler usage in jinja, but supports default values etc
+    """
+    return model.model_validate(value, strict=True, **kwargs).model_dump()
+
+
+def validate_as(value: Any, model: type[BaseModel]) -> str:
+    """Jinja filter for model validation string in copier.yml.
+
+    ```
+    input:
+      type: yaml
+      multiline: true
+      validator: {{ input | validate_as(Example) }}
+    ```
+    """
+    try:
+        model.model_validate(value, strict=True)
+    except ValidationError as err:
+        return str(err)
+    return ''
+
+
+def is_valid_as(model: type[BaseModel]) -> callable:
+    """Construct jinja test for compatibility with model."""
+
+    def test(value: dict) -> bool:
+        try:
+            model.model_validate(value, strict=True)
+        except ValidationError:
+            return False
+        return True
+
+    return test
+
+
+def is_model_instance_test(model: type[BaseModel]) -> callable:
+    """Construct jinja test for model instance."""
+
+    def test(value: Any) -> bool:
+        return isinstance(value, model)
+
+    return test
+
+
 class PydanticExtension(Extension):
-    """Adds Pydantic model Copier helpers."""
+    """Adds Pydantic models and helpers."""
 
     def __init__(self, environment: Environment) -> None:
         """Implement extension logic."""
         super().__init__(environment)
-        for key, model in models.items():
-            # `validator: '{{ input | example_validator_str }}'`
-            environment.filters[f'{key}_validator_str'] = copier_validator(model)
-            # `{{ input | to_example }}` e.g. support partial default values
-            environment.filters[f'to_{key}'] = to(model)
-            # `{% if input is example %}`
-            environment.tests[key] = jinja_test(model)
+
+        # Enable lookup via alias
+        environment.globals['models'] = models
+
+        for model in models.values():
+            # Add models to namespace for use with generic functions
+            environment.globals[model.__name__] = model
+
+            # Add generic functions
+            # `{{ input | to_model(Example) }}` e.g. for default values
+            environment.filters['to_model'] = to_model
+            # `{{ input | to_model_dict(Example) }}` e.g. for default values
+            environment.filters['to_model_dict'] = to_model_dict
+            # `validator: {{ input | validate_as(Example) }}`
+            environment.filters['validate_as'] = validate_as
+
+            # Pre-create other helpers
+            # `{% if input is Example %}`
+            environment.tests[f'{model.__name__}'] = is_valid_as(model)
+            # `{% if input is Example_Model %}`
+            environment.tests[f'{model.__name__}_Model'] = is_model_instance_test(model)
+
+
+if __name__ == '__main__':
+    # Helpful for debugging
+    for model in models.values():
+        print(model.__name__)  # noqa: T201

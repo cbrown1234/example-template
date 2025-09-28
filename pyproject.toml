@@ -30,6 +30,7 @@ known-first-party = ["helpers"]
 ]
 "extensions/*.py" = [
     "INP001",
+    "ANN401",
 ]
 
 [tool.ruff.format]

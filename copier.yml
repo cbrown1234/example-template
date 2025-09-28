@@ -47,7 +47,7 @@ validated_example:
   default: |
     a: 'abc'
     b: 'xyz'
-  validator: "[[ validated_example | example_validator_str ]]"
+  validator: "[[ validated_example | validate_as(Example) ]]"
 
 # invalid_default:
 #   type: str
@@ -61,17 +61,18 @@ validated_example:
 required_config:
   type: yaml
   default: |-
-      db_host: string
-      db_port: number
+    db_host: string
+    db_port: number
   when: false
 
 environments_config:
   type: yaml
   multiline: true
   default: |-
-      dev:
-          db_host: localhost
-          db_port: '5432'
+    dev:
+      db_host: localhost
+      db_port: '5432'
+  # As data structures get more complex, validation gets harder
   validator: |-
       [% if environments_config is not mapping %]
       Environment config must be a yaml map with keys as the environment name
@@ -89,3 +90,13 @@ environments_config:
       [% endif %]
       [% endfor %]
       [% endfor %]
+
+environments_config_v2:
+  type: yaml
+  multiline: true
+  default: |-
+    dev:
+      db_host: localhost
+      db_port: 5432
+  # Using pydantic models simplifies this significantly
+  validator: "[[ environments_config_v2 | validate_as(EnvsConfig) ]]"
