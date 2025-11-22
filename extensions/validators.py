@@ -2,25 +2,9 @@
 
 from typing import Any
 
-import prompt_toolkit
 from jinja2 import Environment
 from jinja2.ext import Extension
 from pydantic import BaseModel, RootModel, StrictStr, ValidationError
-
-validation_toolbar_init = prompt_toolkit.widgets.ValidationToolbar.__init__
-
-
-def validation_toolbar_init_patched(
-    self: prompt_toolkit.widgets.ValidationToolbar, *args: tuple, **kwargs: dict
-) -> None:
-    """Wrap ValidationToolbar __init__ for patching."""
-    validation_toolbar_init(self, *args, **kwargs)
-
-    # Uncap validation message length to enable multiline error messages
-    self.container.content.height = None
-
-
-prompt_toolkit.widgets.ValidationToolbar.__init__ = validation_toolbar_init_patched
 
 
 class Example(BaseModel):

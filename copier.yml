@@ -12,6 +12,7 @@ _envops:
 _jinja_extensions:
   - copier_templates_extensions.TemplateExtensionLoader
   - extensions/validators.py:PydanticExtension
+  - extensions/multiline_validation.py:MultilineValidation
 
 # Child template loads parent answers
 _external_data:
