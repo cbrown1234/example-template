@@ -13,6 +13,7 @@ _jinja_extensions:
   - copier_templates_extensions.TemplateExtensionLoader
   - extensions/validators.py:PydanticExtension
   - extensions/multiline_validation.py:MultilineValidation
+  - jinja2_jsonschema.JsonSchemaExtension
 
 # Child template loads parent answers
 _external_data:
@@ -101,3 +102,7 @@ environments_config_v2:
       db_port: 5432
   # Using pydantic models simplifies this significantly
   validator: "[[ environments_config_v2 | validate_as(EnvsConfig) ]]"
+
+age:
+  default: 18
+  validator: "[[ age | jsonschema({'type': 'integer', 'minimum': 0}) ]]"
