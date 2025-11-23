@@ -1,35 +1,13 @@
 """Pydantic model integration helpers."""
 
+import importlib.util
+import inspect
+import sys
 from typing import Any
 
 from jinja2 import Environment
 from jinja2.ext import Extension
-from pydantic import BaseModel, RootModel, StrictStr, ValidationError
-
-
-class Example(BaseModel):
-    """Example."""
-
-    a: StrictStr
-    b: StrictStr
-    c: StrictStr = '123'
-
-
-class PerEnvConfig(BaseModel):
-    """Config needed per environment."""
-
-    db_host: str
-    db_port: int
-
-
-class EnvsConfig(RootModel[dict[str, PerEnvConfig]]):
-    """Config for environment."""
-
-
-models = {
-    'example': Example,
-    'envs_config': EnvsConfig,
-}
+from pydantic import BaseModel, RootModel, ValidationError
 
 
 def to_model(value: Any, model: type[BaseModel], **kwargs: dict) -> BaseModel:
@@ -89,6 +67,30 @@ def is_model_instance_test(model: type[BaseModel]) -> callable:
     return test
 
 
+# Source: https://stackoverflow.com/questions/5362771/how-to-load-a-module-from-code-in-a-string
+def import_module_from_string(name: str, source: str) -> None:
+    """Import module from source string.
+
+    Example use:
+    import_module_from_string("m", "f = lambda: print('hello')")
+    m.f()
+    """
+    spec = importlib.util.spec_from_loader(name, loader=None)
+    module = importlib.util.module_from_spec(spec)
+    exec(source, module.__dict__)  # noqa: S102
+    sys.modules[name] = module
+    globals()[name] = module
+
+
+def is_pydantic_model(obj: Any) -> bool:
+    """Check if pydantic model itself (not instance)."""
+    return (
+        inspect.isclass(obj)
+        and issubclass(obj, BaseModel)
+        and obj not in (BaseModel, RootModel)
+    )
+
+
 class PydanticExtension(Extension):
     """Adds Pydantic models and helpers."""
 
@@ -96,10 +98,12 @@ class PydanticExtension(Extension):
         """Implement extension logic."""
         super().__init__(environment)
 
-        # Enable lookup via alias
-        environment.globals['models'] = models
+        self._load_models()
 
-        for model in models.values():
+        # Enable lookup via alias
+        environment.globals['models'] = self.models
+
+        for model in self.models.values():
             # Add models to namespace for use with generic functions
             environment.globals[model.__name__] = model
 
@@ -117,8 +121,10 @@ class PydanticExtension(Extension):
             # `{% if input is Example_Model %}`
             environment.tests[f'{model.__name__}_Model'] = is_model_instance_test(model)
 
-
-if __name__ == '__main__':
-    # Helpful for debugging
-    for model in models.values():
-        print(model.__name__)  # noqa: T201
+    def _load_models(self) -> None:
+        models_code, *_ = self.environment.loader.get_source(
+            self.environment,
+            'models.py',
+        )
+        import_module_from_string('models_module', models_code)
+        self.models = dict(inspect.getmembers(models_module, is_pydantic_model))  # noqa: F821
