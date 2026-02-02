@@ -1,0 +1,86 @@
+{
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.gitlab-ci\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "https://astral\\.sh/uv/(?<currentValue>[^/]+)/install\\.sh"
+      ],
+      "depNameTemplate": "astral-sh/uv",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/copier\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "_min_copier_version:\\s*[\"'](?<currentValue>[^\"']+)[\"']"
+      ],
+      "depNameTemplate": "copier",
+      "datasourceTemplate": "pypi"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.gitlab-ci\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "https://taskfile\\.dev/install\\.sh.*?(?<currentValue>v[\\d.]+)"
+      ],
+      "depNameTemplate": "go-task/task",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchFileNames": [
+        "template/**"
+      ],
+      "matchUpdateTypes": [
+        "pinDigest"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "astral-sh/uv"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "copier"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "go-task/task"
+      ],
+      "automerge": true
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "extends": [
+    "config:best-practices"
+  ],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+}

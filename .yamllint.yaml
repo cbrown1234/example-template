@@ -6,6 +6,7 @@ rules:
     ignore: |
       .pre-commit-config.yaml
       copier.yml
+      .copier-answers.copier-template.yml
       Taskfile.yaml
   new-line-at-end-of-file: disable
   new-lines:

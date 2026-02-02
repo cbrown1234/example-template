@@ -1,6 +1,6 @@
 _subdirectory: template
-_min_copier_version: "9.5.0"
-_answers_file: .copier-answers-[[ template_name ]].yml
+_min_copier_version: "9.6.0"
+_answers_file: .copier-answers.[[ template_name ]].yml
 _envops:
   block_end_string: "%]"
   block_start_string: "[%"
@@ -10,9 +10,9 @@ _envops:
   variable_start_string: "[["
   trim_blocks: true
 _jinja_extensions:
-  - copier_templates_extensions.TemplateExtensionLoader
-  - extensions/validators.py:PydanticExtension
-  - extensions/multiline_validation.py:MultilineValidation
+  - copier_pydantic.MultilineValidation
+  - copier_pydantic.PydanticExtension
+  - copier_template_extensions.TemplateExtensionLoader
   - jinja2_jsonschema.JsonSchemaExtension
 
 # Child template loads parent answers
@@ -39,7 +39,7 @@ question:
 
 template_name:
   type: str
-  default: example-template
+  default: 'example-template'
   when: false  # hidden question
 
 # Validation using Pydantic via extensions/validators.py

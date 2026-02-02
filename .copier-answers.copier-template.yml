@@ -1,0 +1,12 @@
+# Changes here will be managed by Copier; NEVER EDIT MANUALLY
+_commit: v0.5.7
+_src_path: git@gitlab.com:browniantech/copier-template-copier-template.git
+copyright_name: Christopher Brown
+copyright_year: '2026'
+include_pydantic_validation: true
+include_template_extensions: true
+license_type: mit
+output_template_name: example-template
+template_dir: template
+template_style: square_brackets
+vcs_platform: github
