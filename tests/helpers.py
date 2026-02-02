@@ -1,6 +1,8 @@
 """Useful methods for testing copier templates."""
 
-from copier.types import StrOrPath
+import subprocess
+from pathlib import Path
+
 from plumbum import local
 from plumbum.cmd import git as _git
 from plumbum.machines import LocalCommand
@@ -16,7 +18,7 @@ git: LocalCommand = _git.with_env(
 
 # Adapted from the copier repo tests
 def git_save(
-    dst: StrOrPath,
+    dst: str | Path,
     message: str = 'Test commit',
     tag: str | None = None,
     allow_empty: bool = False,
@@ -36,3 +38,14 @@ def git_save(
         git('commit', '-m', message, *(['--allow-empty'] if allow_empty else []))
         if tag:
             git('tag', tag)
+
+
+def is_git_repo_dirty() -> bool:
+    """Check if the git repository has uncommitted changes."""
+    result = subprocess.run(
+        ['git', 'status', '--porcelain'],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return bool(result.stdout.strip())
