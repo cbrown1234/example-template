@@ -19,6 +19,7 @@ dev = [
     "pre-commit>=4.5.1",
     "pytest>=9.0.2",
     "pytest-gitconfig>=0.9.0",
+    "python-semantic-release>=10.5.3",
     "pyyaml>=6.0.3",
 ]
 
@@ -47,7 +48,9 @@ prerelease_token = "rc"
 prerelease = false
 
 [tool.semantic_release.changelog]
-exclude_commit_patterns = []
+exclude_commit_patterns = [
+    '''chore(?:\([^)]*?\))?: .+''',
+]
 mode = "update"
 insertion_flag = "<!-- version list -->"
 template_dir = "semantic_release_templates"
