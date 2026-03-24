@@ -23,5 +23,5 @@ copier copy <template-url> /path/to/new/project --trust
 
 ```bash
 cd /path/to/your/project
-copier update --trust
+copier update --answers-file .copier-answers.example-template.yml --trust
 ```
