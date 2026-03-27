@@ -2,12 +2,17 @@
 extends: default
 
 rules:
+  # renovate version comments use single space before inline comment
+  comments:
+    ignore: |
+      .github/workflows/*.yml
   document-start:
     ignore: |
       .pre-commit-config.yaml
       copier.yml
-      .copier-answers.copier-template.yml
       Taskfile.yaml
+      .copier-answers.*.yml
+      .gitlab-ci.yml
   new-line-at-end-of-file: disable
   new-lines:
     type: unix
