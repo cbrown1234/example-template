@@ -10,9 +10,10 @@ tasks:
   dev-setup:
     desc: Bootstrap dev setup
     cmds:
-      - pre-commit install
+      - uv tool install prek
+      - prek install
 
   maintenance:
     desc: Project maintenance automation
     cmds:
-      - pre-commit autoupdate
+      - prek auto-update
