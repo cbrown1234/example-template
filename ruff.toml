@@ -1,5 +1,5 @@
 line-length = 88
-target-version = "py313"
+target-version = "py310"
 
 [lint]
 select = ["ALL"]
@@ -28,6 +28,7 @@ ignore = [
     "S602", # Test env is controlled
     "S603", # Test env is controlled
     "S607", # Test env is controlled
+    "PLR0913", # Fixtures inflate arg count
 ]
 
 [format]
