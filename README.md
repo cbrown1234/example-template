@@ -21,12 +21,16 @@ pipx inject copier copier-pydantic copier-template-extensions
 copier copy <template-url> /path/to/new/project --trust
 ```
 
+For non-interactive usage (scripts, CI, AI agents), see `copier copy --help` for the `--defaults` and `--data` flags.
+
 ### Update an existing project
 
 ```bash
 cd /path/to/your/project
 copier update --answers-file .copier-answers.example-template.yml --trust
 ```
+
+For non-interactive updates, use `--skip-answered` to reuse all existing answers without prompting.
 
 ## Demo
 
