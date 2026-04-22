@@ -27,6 +27,18 @@ Run both with:
 task test
 ```
 
+## Releases
+
+Releases are automated via [python-semantic-release](https://python-semantic-release.readthedocs.io/). Preview what the next release would look like with:
+
+```bash
+task release
+```
+
+### CI setup
+
+The release workflow uses the built-in `GITHUB_TOKEN`. If your default branch restricts pushes via [branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-a-branch-protection-rule/about-branch-protection-rules), use a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) stored as a repository secret named `GH_TOKEN` instead.
+
 ## Making changes
 
 Template files live under `template/`. After making changes, run `task test` to verify everything works.
