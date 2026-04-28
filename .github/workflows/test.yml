@@ -6,6 +6,10 @@ name: Tests
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
+
+permissions:
+  contents: read
 
 env:
   PREK_HOME: .cache/prek
@@ -36,7 +40,7 @@ jobs:
       - name: Install Task
         uses: go-task/setup-task@3be4020d41929789a01026e0e427a4321ce0ad44 # v2
         with:
-          version: "3.48.0"
+          version: "3.50.0"
 
       - name: Cache prek
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
