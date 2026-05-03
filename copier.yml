@@ -36,7 +36,7 @@ question:
   #   [% if _external_data.parent_tpl.question %]
   #   [[ _external_data.parent_tpl.question ]]
   #   [% endif %]"
-  default: "[[ _external_data.parent_tpl.question ]]"
+  default: "[[ _external_data.parent_tpl.get('question', '') ]]"
 
 template_name:
   type: str
