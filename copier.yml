@@ -9,6 +9,7 @@ _envops:
   variable_end_string: "]]"
   variable_start_string: "[["
   trim_blocks: true
+  undefined: jinja2.StrictUndefined  # error loudly for undefined variables
 _jinja_extensions:
   - copier_pydantic.MultilineValidation
   - copier_pydantic.PydanticExtension
