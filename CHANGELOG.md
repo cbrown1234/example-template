@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.1.2 (2026-05-03)
+
+### Bug Fixes
+
+- Handle missing external data
+  ([`cd23b6e`](https://github.com/cbrown1234/example-template/commit/cd23b6eb371a0d46ec040d706f6bb0debb51dd05))
+
+
 ## v0.1.1 (2026-04-30)
 
 ### Bug Fixes
