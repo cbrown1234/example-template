@@ -2,6 +2,15 @@
 
 <!-- version list -->
 
+## v0.1.4 (2026-06-12)
+
+### Bug Fixes
+
+- **deps**: Update copier to v9.15.2
+  ([#110](https://github.com/cbrown1234/example-template/pull/110),
+  [`f8d7539`](https://github.com/cbrown1234/example-template/commit/f8d7539019590417f8717802894067b8c96eccbb))
+
+
 ## v0.1.3 (2026-05-13)
 
 ### Bug Fixes
