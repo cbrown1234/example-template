@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.1.5 (2026-06-23)
+
+### Bug Fixes
+
+- **deps**: Update copier ([#117](https://github.com/cbrown1234/example-template/pull/117),
+  [`9151886`](https://github.com/cbrown1234/example-template/commit/91518860dbb256abd14d110e76b7a608647cdc7d))
+
+
 ## v0.1.4 (2026-06-12)
 
 ### Bug Fixes
