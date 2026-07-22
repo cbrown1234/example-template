@@ -11,3 +11,5 @@ output_template_name: example-template
 template_dir: template
 template_style: square_brackets
 vcs_platform: github
+
+#copier updated
