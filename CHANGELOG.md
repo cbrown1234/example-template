@@ -2,6 +2,15 @@
 
 <!-- version list -->
 
+## v0.1.7 (2026-08-04)
+
+### Bug Fixes
+
+- **deps**: Update dependency copier to v9.17.1
+  ([#147](https://github.com/cbrown1234/example-template/pull/147),
+  [`2d01370`](https://github.com/cbrown1234/example-template/commit/2d01370da9483b6324fab5c85076a44ba5478828))
+
+
 ## v0.1.6 (2026-07-13)
 
 ### Bug Fixes
