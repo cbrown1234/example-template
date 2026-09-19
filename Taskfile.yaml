@@ -3,6 +3,7 @@ version: '3'
 set: [pipefail]
 
 includes:
+  copier-template: ./taskfile/copier-template/copier-template
   demo: ./taskfile/copier-template/demo
   dev-setup: ./taskfile/copier-template/dev-setup
   lint: ./taskfile/copier-template/lint
