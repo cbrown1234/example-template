@@ -31,7 +31,11 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
+<<<<<<< before updating
           version: "0.13.0"
+=======
+          version: "0.12.10"
+>>>>>>> after updating
           enable-cache: true
 
       - name: Install Python ${{ matrix.python-version }}
@@ -40,7 +44,11 @@ jobs:
       - name: Install Task
         uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e # v2
         with:
+<<<<<<< before updating
           version: "3.54.0"
+=======
+          version: "3.53.1"
+>>>>>>> after updating
 
       - name: Cache prek
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
