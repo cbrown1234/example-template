@@ -3,28 +3,6 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/\\.gitlab-ci\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "https://astral\\.sh/uv/(?<currentValue>[^/]+)/install\\.sh"
-      ],
-      "depNameTemplate": "astral-sh/uv",
-      "datasourceTemplate": "github-releases"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/workflows/[^/]+\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "setup-uv@[^\\n]+\\n\\s+with:\\n\\s+version:\\s*\"(?<currentValue>[^\"]+)\""
-      ],
-      "depNameTemplate": "astral-sh/uv",
-      "datasourceTemplate": "github-releases"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
         "/copier\\.ya?ml$/"
       ],
       "matchStrings": [
@@ -32,28 +10,6 @@
       ],
       "depNameTemplate": "copier",
       "datasourceTemplate": "pypi"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/\\.gitlab-ci\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "https://taskfile\\.dev/install\\.sh.*?(?<currentValue>v[\\d.]+)"
-      ],
-      "depNameTemplate": "go-task/task",
-      "datasourceTemplate": "github-releases"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/workflows/[^/]+\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "setup-task@[^\\n]+\\n\\s+with:\\n\\s+version:\\s*\"(?<currentValue>[^\"]+)\""
-      ],
-      "depNameTemplate": "go-task/task",
-      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
@@ -76,7 +32,8 @@
       "matchUpdateTypes": [
         "digest"
       ],
-      "automerge": true
+      "automerge": true,
+      "prConcurrentLimit": 10
     },
     {
       "matchManagers": [
@@ -85,13 +42,15 @@
       "matchUpdateTypes": [
         "digest"
       ],
-      "automerge": true
+      "automerge": true,
+      "prConcurrentLimit": 10
     },
     {
       "matchPackageNames": [
         "astral-sh/uv"
       ],
-      "automerge": true
+      "automerge": true,
+      "prConcurrentLimit": 10
     },
     {
       "matchPackageNames": [
@@ -99,20 +58,25 @@
       ],
       "automerge": true,
       "groupName": "copier",
-      "rangeStrategy": "bump"
+      "rangeStrategy": "bump",
+      "prConcurrentLimit": 10
     },
     {
       "matchPackageNames": [
         "go-task/task"
       ],
-      "automerge": true
+      "automerge": true,
+      "prConcurrentLimit": 10
     }
   ],
   "lockFileMaintenance": {
     "enabled": true,
-    "automerge": true
+    "automerge": true,
+    "prConcurrentLimit": 10
   },
+  "prConcurrentLimit": 7,
   "extends": [
+    "customManagers:githubActionsVersions",
     "config:best-practices"
   ],
   "$schema": "https://docs.renovatebot.com/renovate-schema.json"

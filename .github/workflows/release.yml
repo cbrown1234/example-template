@@ -12,6 +12,10 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # renovate: datasource=github-releases depName=astral-sh/uv
+  UV_VERSION: "0.13.6"
+
 jobs:
   tests:
     uses: ./.github/workflows/test.yml
@@ -25,7 +29,11 @@ jobs:
 
     steps:
       - name: Checkout
+<<<<<<< before updating
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+=======
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+>>>>>>> after updating
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
@@ -34,12 +42,18 @@ jobs:
         run: git reset --hard ${{ github.sha }}
 
       - name: Install uv
+<<<<<<< before updating
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           version: "0.13.6"
+=======
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+>>>>>>> after updating
 
       - name: Install dependencies
-        run: uv sync --group dev
+        run: uv sync --locked --group dev
 
       # PSR writes released/tag/version to $GITHUB_OUTPUT automatically.
       - name: Semantic Release
@@ -47,10 +61,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_COMMIT_AUTHOR: "github-actions <actions@users.noreply.github.com>"
-        run: uv run python-semantic-release version
+        run: uv run --locked python-semantic-release version
 
       - name: Publish to GitHub Releases
+<<<<<<< before updating
         uses: python-semantic-release/publish-action@310a9983a0ae878b29f3aac778d7c77c1db27378 # v10.5.3
+=======
+        uses: python-semantic-release/publish-action@99d4062dd393b5a7a62c5fe9ed78fb364b5674f2 # v10.7.0
+>>>>>>> after updating
         if: steps.release.outputs.released == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
