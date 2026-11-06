@@ -5,6 +5,11 @@ name: pre-commit
   push:
   pull_request:
 
+# Cancel superseded runs of the same pull request; never cancel branch pushes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 permissions:
   contents: read
 
@@ -12,5 +17,10 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< before updating
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: j178/prek-action@5337cb91e0fa35a7ff31b9ca345126d8bbbcdf16 # v2
+=======
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
+>>>>>>> after updating
