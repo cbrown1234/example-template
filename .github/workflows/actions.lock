@@ -5,7 +5,7 @@ version: 'v0.0.3'
 workflows:
     '.github/workflows/pre-commit.yml':
         - 'actions/checkout@v6.1.0'
-        - 'j178/prek-action@v2.0.6'
+        - 'j178/prek-action@v3.1.1'
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
         - 'astral-sh/setup-uv@v10.3.3'
@@ -43,9 +43,9 @@ dependencies:
         commit: 'sha1-a00fbb05ce67b35648be3c78cbc9fd85354c757e'
         owner_id: 26048825
         repo_id: 1054141549
-    'j178/prek-action@v2.0.6':
-        ref: 'v2.0.6'
-        commit: 'sha1-5337cb91e0fa35a7ff31b9ca345126d8bbbcdf16'
+    'j178/prek-action@v3.1.1':
+        ref: 'v3.1.1'
+        commit: 'sha1-7b101f8338a08d2bd6fdb3625e4e7692428763a3'
         owner_id: 10510431
         repo_id: 1052387486
     'python-semantic-release/publish-action@v10.7.0':
